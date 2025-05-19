@@ -29,8 +29,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-web:6.3.5'
     implementation 'org.springframework.security:spring-security-crypto:6.4.4'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     implementation 'com.auth0:java-jwt:3.18.2'
     implementation 'javax.validation:validation-api:2.0.1.Final'
+
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
     runtimeOnly 'org.postgresql:postgresql'
 
