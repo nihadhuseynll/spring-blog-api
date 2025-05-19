@@ -21,3 +21,6 @@ spring:
   sql:
     init:
       mode: always
+
+jwt:
+  secret: the-world-is-mine-or-the-world-is-yours
