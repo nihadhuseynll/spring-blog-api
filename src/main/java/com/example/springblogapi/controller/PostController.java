@@ -3,11 +3,14 @@ package com.example.springblogapi.controller;
 import com.example.springblogapi.dao.entity.Post;
 import com.example.springblogapi.dao.entity.User;
 import com.example.springblogapi.dto.CreatePostRequest;
+import com.example.springblogapi.dto.UpdatePostRequest;
 import com.example.springblogapi.dto.request.CreatePostRequestDto;
+import com.example.springblogapi.dto.request.UpdatePostRequestDto;
 import com.example.springblogapi.dto.response.PostResponseDto;
 import com.example.springblogapi.mapper.PostMapper;
 import com.example.springblogapi.service.abstraction.PostService;
 import com.example.springblogapi.service.abstraction.UserService;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -48,7 +51,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<PostResponseDto> createPost
-            (@RequestBody CreatePostRequestDto createPostRequestDto,
+            (@Valid @RequestBody CreatePostRequestDto createPostRequestDto,
              @RequestAttribute UUID userId) {
         User loggedInUser = userService.getUserById(userId);
         CreatePostRequest createPostRequest = postMapper.toCreatePostRequest(createPostRequestDto);
@@ -59,5 +62,16 @@ public class PostController {
                 postResponseDto,
                 HttpStatus.CREATED
         );
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<PostResponseDto> updatePost(
+            @PathVariable UUID id,
+            @Valid @RequestBody UpdatePostRequestDto updatePostRequestDto) {
+        UpdatePostRequest updatePostRequest = postMapper.toUpdatePostRequest(updatePostRequestDto);
+        Post updatedPost = postService.updatePost(id, updatePostRequest);
+        PostResponseDto postResponseDto = postMapper.toPostResponseDto(updatedPost);
+
+        return ResponseEntity.ok(postResponseDto);
     }
 }
